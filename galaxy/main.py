@@ -1,5 +1,7 @@
 
 from kivy.config import Config
+
+from user_actions import on_keyboard_space
 Config.set('graphics', 'width', '900')
 Config.set('graphics', 'height', '400')
 
@@ -29,8 +31,7 @@ Builder.load_file("menu.kv")
 class MainWidget(RelativeLayout):
 
     from transforms import transform, transform_2D, transform_perspective
-    from user_actions import keyboard_closed, on_keyboard_down, on_keyboard_up, on_touch_down, on_touch_up
-    
+    from user_actions import keyboard_closed, on_keyboard_down, on_keyboard_up, on_touch_down, on_touch_up,on_keyboard_space
     
     menu_widget=ObjectProperty()
     perspective_point_x = NumericProperty(0)
@@ -89,6 +90,7 @@ class MainWidget(RelativeLayout):
             self._keyboard = Window.request_keyboard(
                 self.keyboard_closed, self)
             self._keyboard.bind(on_key_down=self.on_keyboard_down)
+            self._keyboard.bind(on_key_space=self.on_keyboard_space)
             self._keyboard.bind(on_key_up=self.on_keyboard_up)
 
         Clock.schedule_interval(self.update, 1.0 / 60.0)
@@ -352,6 +354,9 @@ class MainWidget(RelativeLayout):
         self.reset_game()
         self.state_game_has_started=True
         self.menu_widget.opacity=0
+        
+    # def on_space_pressed(self):
+        
         
        
             
